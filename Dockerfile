@@ -77,7 +77,7 @@ RUN apt-get update && apt-get install -y nginx
 COPY --from=frontend-build /frontend/dist /usr/share/nginx/html
 
 # Copy Nginx configurations
-COPY ./frontend/nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./frontend/nginx.conf /etc/nginx/nginx.conf
 COPY ./frontend/nginx-backend-not-found.conf /etc/nginx/extra-conf.d/backend-not-found.conf
 
 # Expose port 80 for Nginx
