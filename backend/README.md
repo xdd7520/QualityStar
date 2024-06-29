@@ -206,3 +206,109 @@ $ alembic upgrade head
 ```
 
 If you don't want to start with the default models and want to remove them / modify them, from the beginning, without having any previous revision, you can remove the revision files (`.py` Python files) under `./backend/app/alembic/versions/`. And then create a first migration as described above.
+
+
+
+## 其他配置
+### uvicorn-gunicorn-fastapi:python3.10 Dockerfile
+```dockerfile
+FROM python:3.10
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+LABEL maintainer="Sebastian Ramirez <tiangolo@gmail.com>"
+
+COPY requirements.txt /tmp/requirements.txt
+RUN pip install --no-cache-dir -r /tmp/requirements.txt
+
+COPY ./start.sh /start.sh
+RUN chmod +x /start.sh
+
+COPY ./gunicorn_conf.py /gunicorn_conf.py
+
+COPY ./start-reload.sh /start-reload.sh
+RUN chmod +x /start-reload.sh
+
+COPY ./app /app
+WORKDIR /app/
+
+ENV PYTHONPATH=/app
+
+EXPOSE 80
+
+# Run the start script, it will check for an /app/prestart.sh script (e.g. for migrations)
+# And then will start Gunicorn with Uvicorn
+CMD ["/start.sh"]
+
+```
+
+#### start.sh
+```bash
+#! /usr/bin/env sh
+set -e
+
+if [ -f /app/app/main.py ]; then
+    DEFAULT_MODULE_NAME=app.main
+elif [ -f /app/main.py ]; then
+    DEFAULT_MODULE_NAME=main
+fi
+MODULE_NAME=${MODULE_NAME:-$DEFAULT_MODULE_NAME}
+VARIABLE_NAME=${VARIABLE_NAME:-app}
+export APP_MODULE=${APP_MODULE:-"$MODULE_NAME:$VARIABLE_NAME"}
+
+if [ -f /app/gunicorn_conf.py ]; then
+    DEFAULT_GUNICORN_CONF=/app/gunicorn_conf.py
+elif [ -f /app/app/gunicorn_conf.py ]; then
+    DEFAULT_GUNICORN_CONF=/app/app/gunicorn_conf.py
+else
+    DEFAULT_GUNICORN_CONF=/gunicorn_conf.py
+fi
+export GUNICORN_CONF=${GUNICORN_CONF:-$DEFAULT_GUNICORN_CONF}
+export WORKER_CLASS=${WORKER_CLASS:-"uvicorn.workers.UvicornWorker"}
+
+# If there's a prestart.sh script in the /app directory or other path specified, run it before starting
+PRE_START_PATH=${PRE_START_PATH:-/app/prestart.sh}
+echo "Checking for script in $PRE_START_PATH"
+if [ -f $PRE_START_PATH ] ; then
+    echo "Running script $PRE_START_PATH"
+    . "$PRE_START_PATH"
+else 
+    echo "There is no script $PRE_START_PATH"
+fi
+
+# Start Gunicorn
+exec gunicorn -k "$WORKER_CLASS" -c "$GUNICORN_CONF" "$APP_MODULE"
+```
+
+#### start-reload.sh
+```bash
+#! /usr/bin/env sh
+set -e
+
+if [ -f /app/app/main.py ]; then
+    DEFAULT_MODULE_NAME=app.main
+elif [ -f /app/main.py ]; then
+    DEFAULT_MODULE_NAME=main
+fi
+MODULE_NAME=${MODULE_NAME:-$DEFAULT_MODULE_NAME}
+VARIABLE_NAME=${VARIABLE_NAME:-app}
+export APP_MODULE=${APP_MODULE:-"$MODULE_NAME:$VARIABLE_NAME"}
+
+HOST=${HOST:-0.0.0.0}
+PORT=${PORT:-80}
+LOG_LEVEL=${LOG_LEVEL:-info}
+
+# If there's a prestart.sh script in the /app directory or other path specified, run it before starting
+PRE_START_PATH=${PRE_START_PATH:-/app/prestart.sh}
+echo "Checking for script in $PRE_START_PATH"
+if [ -f $PRE_START_PATH ] ; then
+    echo "Running script $PRE_START_PATH"
+    . "$PRE_START_PATH"
+else 
+    echo "There is no script $PRE_START_PATH"
+fi
+
+# Start Uvicorn with live reload
+exec uvicorn --reload --host $HOST --port $PORT --log-level $LOG_LEVEL "$APP_MODULE"
+```

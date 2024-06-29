@@ -1,4 +1,23 @@
-FROM tiangolo/uvicorn-gunicorn-fastapi:python3.10
+FROM python:3.10
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+LABEL maintainer="xdd <xdd7520@gmail.com>"
+
+
+#COPY ./start.sh /start.sh
+RUN #chmod +x /start.sh
+
+
+COPY ./start-reload.sh /start-reload.sh
+RUN chmod +x /start-reload.sh
+
+COPY ./app /app
+
+ENV PYTHONPATH=/app
+
+EXPOSE 8080
 
 WORKDIR /app/
 
@@ -26,3 +45,9 @@ COPY ./prestart.sh /app/
 COPY ./tests-start.sh /app/
 
 COPY ./app /app/app
+
+# Run the start script, it will check for an /app/prestart.sh script (e.g. for migrations)
+# And then will start Gunicorn with Uvicorn
+#CMD ["/start.sh"]
+CMD ["/start-reload.sh"]
+#CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "880"]
