@@ -23,7 +23,7 @@ LABEL maintainer="xdd <xdd7520@gmail.com>"
 
 
 #COPY ./start.sh /start.sh
-RUN #chmod +x /start.sh
+#RUN #chmod +x /start.sh
 
 
 COPY ./backend/start-reload.sh /start-reload.sh
@@ -71,17 +71,28 @@ COPY ./backend/app /app/app
 
 
 # Install Nginx
-RUN apt-get update && apt-get install -y nginx
+RUN apt-get update && apt-get install -y wget
 
 # Copy frontend build from previous stage
 COPY --from=frontend-build /frontend/dist /usr/share/nginx/html
 
 # Copy Nginx configurations
-COPY ./frontend/nginx.conf /etc/nginx/nginx.conf
-COPY ./frontend/nginx-backend-not-found.conf /etc/nginx/extra-conf.d/backend-not-found.conf
+COPY ./frontend/Caddyfile /etc/caddy/Caddyfile
+#COPY ./frontend/nginx.conf /etc/nginx/nginx.conf
+#COPY ./frontend/default.conf /etc/nginx/conf.d/default.conf
+#COPY ./frontend/nginx-backend-not-found.conf /etc/nginx/extra-conf.d/backend-not-found.conf
+RUN wget -O /tmp/caddy.tar.gz https://github.com/caddyserver/caddy/releases/download/v2.7.6/caddy_2.7.6_linux_amd64.tar.gz
+RUN tar -xvzf /tmp/caddy.tar.gz -C /usr/local/bin
+RUN mkdir "/logs"
 
 # Expose port 80 for Nginx
-EXPOSE 80
+EXPOSE 80 8080
 
 # Start Nginx and Uvicorn
-CMD service nginx start && ["/start-reload.sh"]
+#CMD service nginx start && ["/start-reload.sh"]
+#CMD ["sh", "-c", "/start-reload.sh & service nginx start"]
+# Use ENTRYPOINT to prepare and CMD to run the services
+#ENTRYPOINT ["/start-reload.sh"]
+#CMD ["nginx", "-g", "daemon off;"]
+#CMD ["service", "nginx", "start"]
+CMD ["sh", "-c", "/start-reload.sh & caddy run --config /etc/caddy/Caddyfile"]

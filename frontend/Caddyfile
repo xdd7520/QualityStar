@@ -1,0 +1,23 @@
+:80 {
+    # 根路径服务 Vue.js 应用
+    @notAPI {
+        not path /api/*
+    }
+    root * /usr/share/nginx/html
+    try_files {path} /index.html
+    file_server @notAPI
+
+    # 反向代理 Go 后端 API
+    # 处理以 /api 开头的路径
+    handle /api/* {
+        reverse_proxy http://localhost:8080
+    }
+
+    log {
+        output file /logs/caddy/access.log {
+            roll_size 100mb
+            roll_keep 10
+            roll_keep_for 720h
+        }
+    }
+}
