@@ -24,7 +24,7 @@ def create_role(*, session: SessionDep, role_in: RoleCreate) -> Any:
 def read_roles(
         session: SessionDep,
         pagination: tuple[int, int] = Depends(pagination_params)
-) -> Any:
+) -> PaginatedResponse[RolePublic]:
     page, size = pagination
     offset = (page - 1) * size
 

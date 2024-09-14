@@ -14,10 +14,10 @@ router = APIRouter()
 
 @router.get("/", response_model=PaginatedResponse[ItemPublic])
 def read_items(
-    session: SessionDep,
-    current_user: CurrentUser,
-    pagination: tuple[int, int] = Depends(pagination_params)
-) -> Any:
+        session: SessionDep,
+        current_user: CurrentUser,
+        pagination: tuple[int, int] = Depends(pagination_params)
+) -> PaginatedResponse[ItemPublic]:
     """
     Retrieve items with pagination.
     """
@@ -42,10 +42,10 @@ def read_items(
 
 @router.post("/", response_model=ItemPublic)
 def create_item(
-    *,
-    session: SessionDep,
-    item_in: ItemCreate,
-    current_user: CurrentUser,
+        *,
+        session: SessionDep,
+        item_in: ItemCreate,
+        current_user: CurrentUser,
 ) -> Any:
     """
     Create new item.
@@ -56,11 +56,11 @@ def create_item(
 
 @router.put("/{id}", response_model=ItemPublic)
 def update_item(
-    *,
-    session: SessionDep,
-    id: uuid.UUID,
-    item_in: ItemUpdate,
-    current_user: CurrentUser,
+        *,
+        session: SessionDep,
+        id: uuid.UUID,
+        item_in: ItemUpdate,
+        current_user: CurrentUser,
 ) -> Any:
     """
     Update an item.
@@ -81,10 +81,10 @@ def update_item(
 
 @router.get("/{id}", response_model=ItemPublic)
 def read_item(
-    *,
-    session: SessionDep,
-    id: uuid.UUID,
-    current_user: CurrentUser,
+        *,
+        session: SessionDep,
+        id: uuid.UUID,
+        current_user: CurrentUser,
 ) -> Any:
     """
     Get item by ID.
@@ -99,10 +99,10 @@ def read_item(
 
 @router.delete("/{id}", response_model=ItemPublic)
 def delete_item(
-    *,
-    session: SessionDep,
-    id: uuid.UUID,
-    current_user: CurrentUser,
+        *,
+        session: SessionDep,
+        id: uuid.UUID,
+        current_user: CurrentUser,
 ) -> Any:
     """
     Delete an item.
