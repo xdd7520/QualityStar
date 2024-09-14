@@ -2,7 +2,7 @@ from collections.abc import Generator
 from typing import Annotated
 
 import jwt
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException, status, Query
 from fastapi.security import OAuth2PasswordBearer
 from jwt.exceptions import InvalidTokenError
 from pydantic import ValidationError
@@ -55,3 +55,23 @@ def get_current_active_superuser(current_user: CurrentUser) -> User:
             status_code=403, detail="The user doesn't have enough privileges"
         )
     return current_user
+
+
+def get_current_user_with_role(required_role: str = None):
+    def inner(session: SessionDep, token: TokenDep) -> User:
+        user = get_current_user(session, token)
+        if required_role and (not user.role or user.role.name != required_role):
+            raise HTTPException(
+                status_code=403,
+                detail=f"The user doesn't have the required role: {required_role}",
+            )
+        return user
+
+    return inner
+
+
+def pagination_params(
+        page: int = Query(1, ge=1, description="Page number"),
+        size: int = Query(20, ge=1, le=100, description="Page size")
+) -> tuple[int, int]:
+    return page, size

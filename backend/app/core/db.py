@@ -2,7 +2,7 @@ from sqlmodel import Session, create_engine, select
 
 from app import crud
 from app.core.config import settings
-from app.models import User, UserCreate
+from app.models import User, UserCreate, Role
 
 engine = create_engine(str(settings.SQLALCHEMY_DATABASE_URI))
 
@@ -22,6 +22,15 @@ def init_db(session: Session) -> None:
     # This works because the models are already imported and registered from app.models
     # SQLModel.metadata.create_all(engine)
 
+    # 创建 admin 角色（如果不存在）
+    admin_role = session.exec(select(Role).where(Role.name == "admin")).first()
+    if not admin_role:
+        admin_role = Role(name="admin", description="Administrator")
+        session.add(admin_role)
+        session.commit()
+        session.refresh(admin_role)
+
+    # 创建超级用户（如果不存在）
     user = session.exec(
         select(User).where(User.email == settings.FIRST_SUPERUSER)
     ).first()
@@ -30,5 +39,8 @@ def init_db(session: Session) -> None:
             email=settings.FIRST_SUPERUSER,
             password=settings.FIRST_SUPERUSER_PASSWORD,
             is_superuser=True,
+            role_id=admin_role.id,  # 将超级用户与 admin 角色关联
         )
         user = crud.create_user(session=session, user_create=user_in)
+
+    session.commit()
