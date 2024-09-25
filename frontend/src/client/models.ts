@@ -52,7 +52,7 @@ export type NewPassword = {
 
 
 export type PaginatedResponse_ItemPublic_ = {
-	data: Array<unknown>;
+	data: Array<ItemPublic>;
 	total: number;
 	page: number;
 	size: number;
@@ -62,7 +62,7 @@ export type PaginatedResponse_ItemPublic_ = {
 
 
 export type PaginatedResponse_RolePublic_ = {
-	data: Array<unknown>;
+	data: Array<RolePublic>;
 	total: number;
 	page: number;
 	size: number;
@@ -72,7 +72,7 @@ export type PaginatedResponse_RolePublic_ = {
 
 
 export type PaginatedResponse_UserPublic_ = {
-	data: Array<unknown>;
+	data: Array<UserPublic>;
 	total: number;
 	page: number;
 	size: number;

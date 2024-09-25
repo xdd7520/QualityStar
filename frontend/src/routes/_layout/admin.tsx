@@ -33,12 +33,12 @@ export const Route = createFileRoute("/_layout/admin")({
   validateSearch: (search) => usersSearchSchema.parse(search),
 })
 
-const PER_PAGE = 5
+const PER_PAGE = 20
 
 function getUsersQueryOptions({ page }: { page: number }) {
   return {
     queryFn: () =>
-      UsersService.readUsers({ skip: (page - 1) * PER_PAGE, limit: PER_PAGE }),
+      UsersService.readUsers({ page: page , size: PER_PAGE }),
     queryKey: ["users", { page }],
   }
 }
