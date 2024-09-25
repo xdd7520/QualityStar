@@ -75,11 +75,12 @@ function UsersTable() {
         <Table size={{ base: "sm", md: "md" }}>
           <Thead>
             <Tr>
-              <Th width="20%">Full name</Th>
-              <Th width="50%">Email</Th>
-              <Th width="10%">Role</Th>
-              <Th width="10%">Status</Th>
-              <Th width="10%">Actions</Th>
+              <Th width="20%">全名</Th>
+              <Th width="50%">邮箱</Th>
+              <Th width="10%">角色</Th>
+              <Th width="10%">角色2</Th>
+              <Th width="10%">状态</Th>
+              <Th width="10%">操作</Th>
             </Tr>
           </Thead>
           {isPending ? (
@@ -112,6 +113,7 @@ function UsersTable() {
                     {user.email}
                   </Td>
                   <Td>{user.is_superuser ? "Superuser" : "User"}</Td>
+                  <Td>{user.role_id }</Td>
                   <Td>
                     <Flex gap={2}>
                       <Box
@@ -160,7 +162,7 @@ function Admin() {
   return (
     <Container maxW="full">
       <Heading size="lg" textAlign={{ base: "center", md: "left" }} pt={12}>
-        Users Management
+        用户设置
       </Heading>
 
       <Navbar type={"User"} addModalAs={AddUser} />

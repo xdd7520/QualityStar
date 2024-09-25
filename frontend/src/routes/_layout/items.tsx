@@ -73,9 +73,9 @@ function ItemsTable() {
           <Thead>
             <Tr>
               <Th>ID</Th>
-              <Th>Title</Th>
-              <Th>Description</Th>
-              <Th>Actions</Th>
+              <Th>标题</Th>
+              <Th>描述</Th>
+              <Th>操作</Th>
             </Tr>
           </Thead>
           {isPending ? (
@@ -101,10 +101,10 @@ function ItemsTable() {
                     isTruncated
                     maxWidth="150px"
                   >
-                    {item.description || "N/A"}
+                    {item.description || "无"}
                   </Td>
                   <Td>
-                    <ActionsMenu type={"Item"} value={item} />
+                    <ActionsMenu type={"物品"} value={item} />
                   </Td>
                 </Tr>
               ))}
@@ -120,11 +120,11 @@ function ItemsTable() {
         justifyContent="flex-end"
       >
         <Button onClick={() => setPage(page - 1)} isDisabled={!hasPreviousPage}>
-          Previous
+          上一页
         </Button>
-        <span>Page {page}</span>
+        <span>第 {page} 页</span>
         <Button isDisabled={!hasNextPage} onClick={() => setPage(page + 1)}>
-          Next
+          下一页
         </Button>
       </Flex>
     </>
@@ -135,10 +135,10 @@ function Items() {
   return (
     <Container maxW="full">
       <Heading size="lg" textAlign={{ base: "center", md: "left" }} pt={12}>
-        Items Management
+        物品管理
       </Heading>
 
-      <Navbar type={"Item"} addModalAs={AddItem} />
+      <Navbar type={"物品"} addModalAs={AddItem} />
       <ItemsTable />
     </Container>
   )

@@ -15,7 +15,7 @@ import {
 import { useQueryClient } from "@tanstack/react-query"
 import { FiLogOut, FiMenu } from "react-icons/fi"
 
-import Logo from "/assets/images/fastapi-logo.svg"
+import Logo from "/assets/images/quality-sphere.svg"
 import type { UserPublic } from "../../client"
 import useAuth from "../../hooks/useAuth"
 import SidebarItems from "./SidebarItems"
@@ -63,12 +63,12 @@ const Sidebar = () => {
                   alignItems="center"
                 >
                   <FiLogOut />
-                  <Text ml={2}>Log out</Text>
+                  <Text ml={2}>退出登录</Text>
                 </Flex>
               </Box>
               {currentUser?.email && (
                 <Text color={textColor} noOfLines={2} fontSize="sm" p={2}>
-                  Logged in as: {currentUser.email}
+                  当前登录：{currentUser.email}
                 </Text>
               )}
             </Flex>
@@ -104,7 +104,7 @@ const Sidebar = () => {
               p={2}
               maxW="180px"
             >
-              Logged in as: {currentUser.email}
+              当前登录：{currentUser.email}
             </Text>
           )}
         </Flex>

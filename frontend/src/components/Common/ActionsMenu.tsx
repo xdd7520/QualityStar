@@ -38,14 +38,14 @@ const ActionsMenu = ({ type, value, disabled }: ActionsMenuProps) => {
             onClick={editUserModal.onOpen}
             icon={<FiEdit fontSize="16px" />}
           >
-            Edit {type}
+            编辑{type}
           </MenuItem>
           <MenuItem
             onClick={deleteModal.onOpen}
             icon={<FiTrash fontSize="16px" />}
             color="ui.danger"
           >
-            Delete {type}
+            删除{type}
           </MenuItem>
         </MenuList>
         {type === "User" ? (

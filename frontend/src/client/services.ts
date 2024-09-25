@@ -6,19 +6,19 @@ import type { Body_login_login_access_token,Message,NewPassword,Token,UserPublic
 
 export type TDataLoginAccessToken = {
                 formData: Body_login_login_access_token
-                
+
             }
 export type TDataRecoverPassword = {
                 email: string
-                
+
             }
 export type TDataResetPassword = {
                 requestBody: NewPassword
-                
+
             }
 export type TDataRecoverPasswordHtmlContent = {
                 email: string
-                
+
             }
 
 export class LoginService {
@@ -133,36 +133,36 @@ page?: number
  * Page size
  */
 size?: number
-                
+
             }
 export type TDataCreateUser = {
                 requestBody: UserCreate
-                
+
             }
 export type TDataUpdateUserMe = {
                 requestBody: UserUpdateMe
-                
+
             }
 export type TDataUpdatePasswordMe = {
                 requestBody: UpdatePassword
-                
+
             }
 export type TDataRegisterUser = {
                 requestBody: UserRegister
-                
+
             }
 export type TDataReadUserById = {
                 userId: string
-                
+
             }
 export type TDataUpdateUser = {
                 requestBody: UserUpdate
 userId: string
-                
+
             }
 export type TDataDeleteUser = {
                 userId: string
-                
+
             }
 
 export class UsersService {
@@ -355,8 +355,8 @@ userId,
 	 */
 	public static deleteUser(data: TDataDeleteUser): CancelablePromise<Message> {
 		const {
-userId,
-} = data;
+			userId,
+			} = data;
 		return __request(OpenAPI, {
 			method: 'DELETE',
 			url: '/api/v1/users/{user_id}',
@@ -373,7 +373,7 @@ userId,
 
 export type TDataTestEmail = {
                 emailTo: string
-                
+
             }
 
 export class UtilsService {
@@ -423,24 +423,24 @@ page?: number
  * Page size
  */
 size?: number
-                
+
             }
 export type TDataCreateItem = {
                 requestBody: ItemCreate
-                
+
             }
 export type TDataUpdateItem = {
                 id: string
 requestBody: ItemUpdate
-                
+
             }
 export type TDataReadItem = {
                 id: string
-                
+
             }
 export type TDataDeleteItem = {
                 id: string
-                
+
             }
 
 export class ItemsService {
@@ -562,7 +562,7 @@ id,
 
 export type TDataCreateRole = {
                 requestBody: RoleCreate
-                
+
             }
 export type TDataReadRoles = {
                 /**
@@ -573,20 +573,20 @@ page?: number
  * Page size
  */
 size?: number
-                
+
             }
 export type TDataReadRole = {
                 roleId: string
-                
+
             }
 export type TDataUpdateRole = {
                 requestBody: RoleUpdate
 roleId: string
-                
+
             }
 export type TDataDeleteRole = {
                 roleId: string
-                
+
             }
 
 export class RolesService {

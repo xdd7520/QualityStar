@@ -54,7 +54,7 @@ const UserInformation = () => {
     mutationFn: (data: UserUpdateMe) =>
       UsersService.updateUserMe({ requestBody: data }),
     onSuccess: () => {
-      showToast("Success!", "User updated successfully.", "success")
+      showToast("成功！", "用户信息已成功更新。", "success")
     },
     onError: (err: ApiError) => {
       handleError(err, showToast)
@@ -77,7 +77,7 @@ const UserInformation = () => {
     <>
       <Container maxW="full">
         <Heading size="sm" py={4}>
-          User Information
+          用户信息
         </Heading>
         <Box
           w={{ sm: "full", md: "50%" }}
@@ -86,7 +86,7 @@ const UserInformation = () => {
         >
           <FormControl>
             <FormLabel color={color} htmlFor="name">
-              Full name
+              全名
             </FormLabel>
             {editMode ? (
               <Input
@@ -110,13 +110,13 @@ const UserInformation = () => {
           </FormControl>
           <FormControl mt={4} isInvalid={!!errors.email}>
             <FormLabel color={color} htmlFor="email">
-              Email
+              电子邮箱
             </FormLabel>
             {editMode ? (
               <Input
                 id="email"
                 {...register("email", {
-                  required: "Email is required",
+                  required: "电子邮箱是必填项",
                   pattern: emailPattern,
                 })}
                 type="email"
@@ -140,11 +140,11 @@ const UserInformation = () => {
               isLoading={editMode ? isSubmitting : false}
               isDisabled={editMode ? !isDirty || !getValues("email") : false}
             >
-              {editMode ? "Save" : "Edit"}
+              {editMode ? "保存" : "编辑"}
             </Button>
             {editMode && (
               <Button onClick={onCancel} isDisabled={isSubmitting}>
-                Cancel
+                取消
               </Button>
             )}
           </Flex>

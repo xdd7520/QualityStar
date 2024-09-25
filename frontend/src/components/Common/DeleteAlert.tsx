@@ -44,16 +44,16 @@ const Delete = ({ type, id, isOpen, onClose }: DeleteProps) => {
     mutationFn: deleteEntity,
     onSuccess: () => {
       showToast(
-        "Success",
-        `The ${type.toLowerCase()} was deleted successfully.`,
+        "成功",
+        `${type}已成功删除。`,
         "success",
       )
       onClose()
     },
     onError: () => {
       showToast(
-        "An error occurred.",
-        `An error occurred while deleting the ${type.toLowerCase()}.`,
+        "发生错误",
+        `删除${type}时发生错误。`,
         "error",
       )
     },
@@ -79,28 +79,27 @@ const Delete = ({ type, id, isOpen, onClose }: DeleteProps) => {
       >
         <AlertDialogOverlay>
           <AlertDialogContent as="form" onSubmit={handleSubmit(onSubmit)}>
-            <AlertDialogHeader>Delete {type}</AlertDialogHeader>
+            <AlertDialogHeader>删除{type}</AlertDialogHeader>
 
             <AlertDialogBody>
-              {type === "User" && (
+              {type === "用户" && (
                 <span>
-                  All items associated with this user will also be{" "}
-                  <strong>permantly deleted. </strong>
+                  与此用户关联的所有物品也将被<strong>永久删除。</strong>
                 </span>
               )}
-              Are you sure? You will not be able to undo this action.
+              确定要删除吗？此操作无法撤销。
             </AlertDialogBody>
 
             <AlertDialogFooter gap={3}>
               <Button variant="danger" type="submit" isLoading={isSubmitting}>
-                Delete
+                删除
               </Button>
               <Button
                 ref={cancelRef}
                 onClick={onClose}
                 isDisabled={isSubmitting}
               >
-                Cancel
+                取消
               </Button>
             </AlertDialogFooter>
           </AlertDialogContent>

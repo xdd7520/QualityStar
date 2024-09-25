@@ -38,7 +38,7 @@ const ChangePassword = () => {
     mutationFn: (data: UpdatePassword) =>
       UsersService.updatePasswordMe({ requestBody: data }),
     onSuccess: () => {
-      showToast("Success!", "Password updated successfully.", "success")
+      showToast("成功！", "密码已成功更新。", "success")
       reset()
     },
     onError: (err: ApiError) => {
@@ -54,7 +54,7 @@ const ChangePassword = () => {
     <>
       <Container maxW="full">
         <Heading size="sm" py={4}>
-          Change Password
+          修改密码
         </Heading>
         <Box
           w={{ sm: "full", md: "50%" }}
@@ -63,12 +63,12 @@ const ChangePassword = () => {
         >
           <FormControl isRequired isInvalid={!!errors.current_password}>
             <FormLabel color={color} htmlFor="current_password">
-              Current Password
+              当前密码
             </FormLabel>
             <Input
               id="current_password"
               {...register("current_password")}
-              placeholder="Password"
+              placeholder="密码"
               type="password"
               w="auto"
             />
@@ -79,11 +79,11 @@ const ChangePassword = () => {
             )}
           </FormControl>
           <FormControl mt={4} isRequired isInvalid={!!errors.new_password}>
-            <FormLabel htmlFor="password">Set Password</FormLabel>
+            <FormLabel htmlFor="password">设置新密码</FormLabel>
             <Input
               id="password"
               {...register("new_password", passwordRules())}
-              placeholder="Password"
+              placeholder="密码"
               type="password"
               w="auto"
             />
@@ -92,11 +92,11 @@ const ChangePassword = () => {
             )}
           </FormControl>
           <FormControl mt={4} isRequired isInvalid={!!errors.confirm_password}>
-            <FormLabel htmlFor="confirm_password">Confirm Password</FormLabel>
+            <FormLabel htmlFor="confirm_password">确认新密码</FormLabel>
             <Input
               id="confirm_password"
               {...register("confirm_password", confirmPasswordRules(getValues))}
-              placeholder="Password"
+              placeholder="密码"
               type="password"
               w="auto"
             />
@@ -112,7 +112,7 @@ const ChangePassword = () => {
             type="submit"
             isLoading={isSubmitting}
           >
-            Save
+            保存
           </Button>
         </Box>
       </Container>

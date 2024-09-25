@@ -35,8 +35,8 @@ const DeleteConfirmation = ({ isOpen, onClose }: DeleteProps) => {
     mutationFn: () => UsersService.deleteUserMe(),
     onSuccess: () => {
       showToast(
-        "Success",
-        "Your account has been successfully deleted.",
+        "成功",
+        "您的账户已成功删除。",
         "success",
       )
       logout()
@@ -65,25 +65,22 @@ const DeleteConfirmation = ({ isOpen, onClose }: DeleteProps) => {
       >
         <AlertDialogOverlay>
           <AlertDialogContent as="form" onSubmit={handleSubmit(onSubmit)}>
-            <AlertDialogHeader>Confirmation Required</AlertDialogHeader>
+            <AlertDialogHeader>需要确认</AlertDialogHeader>
 
             <AlertDialogBody>
-              All your account data will be{" "}
-              <strong>permanently deleted.</strong> If you are sure, please
-              click <strong>"Confirm"</strong> to proceed. This action cannot be
-              undone.
+              您的所有账户数据将被<strong>永久删除</strong>。如果您确定要这样做，请点击<strong>"确认"</strong>继续。此操作无法撤销。
             </AlertDialogBody>
 
             <AlertDialogFooter gap={3}>
               <Button variant="danger" type="submit" isLoading={isSubmitting}>
-                Confirm
+                确认
               </Button>
               <Button
                 ref={cancelRef}
                 onClick={onClose}
                 isDisabled={isSubmitting}
               >
-                Cancel
+                取消
               </Button>
             </AlertDialogFooter>
           </AlertDialogContent>

@@ -21,8 +21,8 @@ const NotFound = () => {
         >
           404
         </Text>
-        <Text fontSize="md">Oops!</Text>
-        <Text fontSize="md">Page not found.</Text>
+        <Text fontSize="md">糟糕！</Text>
+        <Text fontSize="md">页面未找到。</Text>
         <Button
           as={Link}
           to="/"
@@ -31,7 +31,7 @@ const NotFound = () => {
           variant="outline"
           mt={4}
         >
-          Go back
+          返回
         </Button>
       </Container>
     </>
