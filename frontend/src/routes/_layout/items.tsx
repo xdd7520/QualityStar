@@ -31,12 +31,12 @@ export const Route = createFileRoute("/_layout/items")({
   validateSearch: (search) => itemsSearchSchema.parse(search),
 })
 
-const PER_PAGE = 5
+const PER_PAGE = 20
 
 function getItemsQueryOptions({ page }: { page: number }) {
   return {
     queryFn: () =>
-      ItemsService.readItems({ skip: (page - 1) * PER_PAGE, limit: PER_PAGE }),
+      ItemsService.readItems({ page: page, size: PER_PAGE }),
     queryKey: ["items", { page }],
   }
 }
