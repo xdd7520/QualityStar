@@ -1,9 +1,9 @@
 import {
   Badge,
   Box,
-  Container,
+  Button,
   Flex,
-  Spinner,
+  SkeletonText,
   Table,
   TableContainer,
   Tbody,
@@ -12,99 +12,150 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react"
-import { createFileRoute } from "@tanstack/react-router"
-import { useQuery, useQueryClient } from "react-query"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { createFileRoute, useNavigate } from "@tanstack/react-router"
+import { useEffect } from "react"
+import { z } from "zod"
 
-import { type ApiError, type UserPublic, UsersService } from "../../client"
+import { type UserPublic, UsersService } from "../../client"
 import ActionsMenu from "../../components/Common/ActionsMenu"
-import Navbar from "../../components/Common/Navbar"
-import useCustomToast from "../../hooks/useCustomToast"
+import AddUser from "./AddUser.tsx";
+import Navbar from "../Common/Navbar.tsx";
 
-export const Route = createFileRoute("/_layout/admin")({
-  component: Admin,
+const usersSearchSchema = z.object({
+  page: z.number().catch(1),
 })
 
-function Admin() {
+export const Route = createFileRoute("/_layout/admin")({
+  component: UserManager,
+  validateSearch: (search) => usersSearchSchema.parse(search),
+})
+
+const PER_PAGE = 20
+
+function getUsersQueryOptions({ page }: { page: number }) {
+  return {
+    queryFn: () =>
+      UsersService.readUsers({ page: page , size: PER_PAGE }),
+    queryKey: ["users", { page }],
+  }
+}
+
+function UserManager() {
   const queryClient = useQueryClient()
-  const showToast = useCustomToast()
-  const currentUser = queryClient.getQueryData<UserPublic>("currentUser")
+  const currentUser = queryClient.getQueryData<UserPublic>(["currentUser"])
+  const { page } = Route.useSearch()
+  const navigate = useNavigate({ from: Route.fullPath })
+  const setPage = (page: number) =>
+    navigate({ search: (prev) => ({ ...prev, page }) })
+
   const {
     data: users,
-    isLoading,
-    isError,
-    error,
-  } = useQuery("users", () => UsersService.readUsers({}))
+    isPending,
+    isPlaceholderData,
+  } = useQuery({
+    ...getUsersQueryOptions({ page }),
+    placeholderData: (prevData) => prevData,
+  })
 
-  if (isError) {
-    const errDetail = (error as ApiError).body?.detail
-    showToast("Something went wrong.", `${errDetail}`, "error")
-  }
+  const hasNextPage = !isPlaceholderData && users?.data.length === PER_PAGE
+  const hasPreviousPage = page > 1
+
+  useEffect(() => {
+    if (hasNextPage) {
+      queryClient.prefetchQuery(getUsersQueryOptions({ page: page + 1 }))
+    }
+  }, [page, queryClient, hasNextPage])
 
   return (
     <>
-      {isLoading ? (
-        // TODO: Add skeleton
-        <Flex justify="center" align="center" height="100vh" width="full">
-          <Spinner size="xl" color="ui.main" />
-        </Flex>
-      ) : (
-        users && (
-          <Container maxW="full">
-
-            <Navbar type={"用户"} />
-            <TableContainer>
-              <Table fontSize="md" size={{ base: "sm", md: "md" }}>
-                <Thead>
-                  <Tr>
-                    <Th>名称</Th>
-                    <Th>邮箱</Th>
-                    <Th>权限</Th>
-                    <Th>状态</Th>
-                    <Th>操作</Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  {users.data.map((user) => (
-                    <Tr key={user.id}>
-                      <Td color={!user.full_name ? "gray.400" : "inherit"}>
-                        {user.full_name || "N/A"}
-                        {currentUser?.id === user.id && (
-                          <Badge ml="1" colorScheme="teal">
-                            You
-                          </Badge>
-                        )}
-                      </Td>
-                      <Td>{user.email}</Td>
-                      <Td>{user.is_superuser ? "管理员" : "用户"}</Td>
-                      <Td>
-                        <Flex gap={2}>
-                          <Box
-                            w="2"
-                            h="2"
-                            borderRadius="50%"
-                            bg={user.is_active ? "ui.success" : "ui.danger"}
-                            alignSelf="center"
-                          />
-                          {user.is_active ? "活跃" : "已锁定"}
-                        </Flex>
-                      </Td>
-                      <Td>
-                        <ActionsMenu
-                          type="用户"
-                          value={user}
-                          disabled={currentUser?.id === user.id ? true : false}
-                        />
-                      </Td>
-                    </Tr>
-                  ))}
-                </Tbody>
-              </Table>
-            </TableContainer>
-          </Container>
-        )
-      )}
+      <Navbar type={"User"} addModalAs={AddUser} />
+      <TableContainer>
+        <Table size={{ base: "sm", md: "md" }}>
+          <Thead>
+            <Tr>
+              <Th width="20%">全名</Th>
+              <Th width="50%">邮箱</Th>
+              <Th width="10%">角色</Th>
+              <Th width="10%">角色2</Th>
+              <Th width="10%">状态</Th>
+              <Th width="10%">操作</Th>
+            </Tr>
+          </Thead>
+          {isPending ? (
+            <Tbody>
+              <Tr>
+                {new Array(4).fill(null).map((_, index) => (
+                  <Td key={index}>
+                    <SkeletonText noOfLines={1} paddingBlock="16px" />
+                  </Td>
+                ))}
+              </Tr>
+            </Tbody>
+          ) : (
+            <Tbody>
+              {users?.data.map((user) => (
+                <Tr key={user.id}>
+                  <Td
+                    color={!user.full_name ? "ui.dim" : "inherit"}
+                    isTruncated
+                    maxWidth="150px"
+                  >
+                    {user.full_name || "N/A"}
+                    {currentUser?.id === user.id && (
+                      <Badge ml="1" colorScheme="teal">
+                        You
+                      </Badge>
+                    )}
+                  </Td>
+                  <Td isTruncated maxWidth="150px">
+                    {user.email}
+                  </Td>
+                  <Td>{user.is_superuser ? "Superuser" : "User"}</Td>
+                  <Td>{user.role_id }</Td>
+                  <Td>
+                    <Flex gap={2}>
+                      <Box
+                        w="2"
+                        h="2"
+                        borderRadius="50%"
+                        bg={user.is_active ? "ui.success" : "ui.danger"}
+                        alignSelf="center"
+                      />
+                      {user.is_active ? "Active" : "Inactive"}
+                    </Flex>
+                  </Td>
+                  <Td>
+                    <ActionsMenu
+                      type="User"
+                      value={user}
+                      disabled={currentUser?.id === user.id ? true : false}
+                    />
+                  </Td>
+                </Tr>
+              ))}
+            </Tbody>
+          )}
+        </Table>
+      </TableContainer>
+      <Flex
+        gap={4}
+        alignItems="center"
+        mt={4}
+        direction="row"
+        justifyContent="flex-end"
+      >
+        <Button onClick={() => setPage(page - 1)} isDisabled={!hasPreviousPage}>
+          Previous
+        </Button>
+        <span>Page {page}</span>
+        <Button isDisabled={!hasNextPage} onClick={() => setPage(page + 1)}>
+          Next
+        </Button>
+      </Flex>
     </>
   )
 }
 
-export default Admin
+
+export default UserManager
