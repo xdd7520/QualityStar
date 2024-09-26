@@ -28,7 +28,7 @@ const Navbar = ({ type, addModalAs }: NavbarProps) => {
           fontSize={{ base: "sm", md: "inherit" }}
           onClick={addModal.onOpen}
         >
-          <Icon as={FaPlus} /> 添加{type}
+          <Icon as={FaPlus} /> {type}
         </Button>
         <AddModal isOpen={addModal.isOpen} onClose={addModal.onClose} />
       </Flex>
