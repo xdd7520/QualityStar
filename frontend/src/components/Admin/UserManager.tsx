@@ -69,7 +69,7 @@ function UserManager() {
 
   return (
     <>
-      <Navbar type={"User"} addModalAs={AddUser} />
+      <Navbar type={"添加用户"} addModalAs={AddUser} />
       <TableContainer>
         <Table size={{ base: "sm", md: "md" }}>
           <Thead>
