@@ -9,10 +9,11 @@ import { z } from "zod"
 import UserManager from "../../components/Admin/UserManager.tsx";
 import { useQueryClient } from "@tanstack/react-query"
 import {UserPublic} from "../../client";
+import RoleManager from "../../components/Admin/RoleManager.tsx";
 
 const tabsConfig = [
   {title: "用户管理", component: UserManager},
-  // {title: "角色管理", component: RoleManager},
+  {title: "角色管理", component: RoleManager},
 
 ]
 
