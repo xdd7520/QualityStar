@@ -1,10 +1,14 @@
 import sentry_sdk
 from fastapi import FastAPI
 from fastapi.routing import APIRoute
+from fastapi_pagination import add_pagination
 from starlette.middleware.cors import CORSMiddleware
 
 from app.api.main import api_router
 from app.core.config import settings
+from app.scheduler.scheduler import scheduler
+from app.service.gather_interface import query_prometheus
+from config.logging_config import global_logger as logger
 
 
 def custom_generate_unique_id(route: APIRoute) -> str:
@@ -33,3 +37,18 @@ if settings.BACKEND_CORS_ORIGINS:
     )
 
 app.include_router(api_router, prefix=settings.API_V1_STR)
+
+# 下面是非项目模板中的配置
+
+add_pagination(app)
+
+
+# 定时任务
+@app.on_event("startup")
+async def start_scheduler():
+    # domain_scheduler.add_job(weekly_task, 'cron', day_of_week='mon', hour=9, minute=15)
+    # domain_scheduler.add_job(daily_task, 'cron', hour=10, minute=30)
+    # domain_scheduler.add_job(recurring_task, 'interval', minutes=10)
+    # domain_scheduler.add_job(my_task, 'interval', minutes=1)
+    scheduler.add_job(query_prometheus, 'interval', hours=1)
+    logger.info(f"定时任务列表：{scheduler.list_jobs()}")
