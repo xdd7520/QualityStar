@@ -1,7 +1,8 @@
 import uuid
-from typing import Any
+from typing import Any, Type, TypeVar
 
-from sqlmodel import Session, select
+from fastapi import HTTPException
+from sqlmodel import Session, select, SQLModel
 
 from app.core.security import get_password_hash, verify_password
 from app.models import Item, ItemCreate, User, UserCreate, UserUpdate, Role, RoleCreate, RoleUpdate
@@ -86,3 +87,25 @@ def delete_role(session: Session, role_id: uuid.UUID) -> None:
     if role:
         session.delete(role)
         session.commit()
+
+
+T = TypeVar('T')
+
+
+def update_entity(entity_id: int, entity_update: SQLModel, session: Session, entity_class: Type[T]) -> T:
+    """
+    更新数据的实例的通用方法
+    """
+    entity = session.get(entity_class, entity_id)
+    if not entity:
+        raise HTTPException(status_code=404, detail=f"{entity_class.__name__} not found")
+
+    entity_data = entity_update.dict(exclude_unset=True)
+    for key, value in entity_data.items():
+        setattr(entity, key, value)
+    # entity.updated_at = datetime.now()  # 如果需要更新时间戳，可以取消注释
+
+    session.add(entity)
+    session.commit()
+    session.refresh(entity)
+    return entity
