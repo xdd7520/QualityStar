@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from app.api.routes import items, login, roles, users, utils, tester, report, ignore, scheduler
+from app.api.routes import items, login, roles, users, utils, tester, report, ignore, scheduler, trigger
 
 api_router = APIRouter()
 api_router.include_router(login.router, tags=["login"])
@@ -12,3 +12,4 @@ api_router.include_router(tester.router, tags=["tester"])
 api_router.include_router(report.router, tags=["uri_report"])
 api_router.include_router(ignore.router, prefix="/ignore", tags=["ignore"])
 api_router.include_router(scheduler.router, prefix="/scheduler", tags=["scheduler"])
+api_router.include_router(trigger.router, prefix="/trigger", tags=["trigger"])
