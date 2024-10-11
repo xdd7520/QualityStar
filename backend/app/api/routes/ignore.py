@@ -37,11 +37,11 @@ def get_ignores_page(session: SessionDep) -> Page[IgnoreOut]:
 
 
 @router.patch("/ignore/{ignore_id}", response_model=IgnoreOut)
-def update_role(ignore_id: int, role_update: IgnoreUpdate, session: SessionDep):
+def update_ignore(ignore_id: int, ignore_update: IgnoreUpdate, session: SessionDep):
     """
     修改过滤信息
     """
-    return update_entity(ignore_id, role_update, session, IgnoreInterface)
+    return update_entity(ignore_id, ignore_update, session, IgnoreInterface)
 
 
 @router.get("/ignores/{ignore_id}", response_model=IgnoreOut)
