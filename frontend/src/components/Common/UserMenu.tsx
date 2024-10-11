@@ -5,9 +5,9 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Image
 } from "@chakra-ui/react"
 import { Link } from "@tanstack/react-router"
-import { FaUserAstronaut } from "react-icons/fa"
 import { FiLogOut, FiUser } from "react-icons/fi"
 
 import useAuth from "../../hooks/useAuth"
@@ -32,7 +32,8 @@ const UserMenu = () => {
           <MenuButton
             as={IconButton}
             aria-label="Options"
-            icon={<FaUserAstronaut color="white" fontSize="18px" />}
+            icon={<Image src='https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80
+' alt='Dan Abramov' boxSize='50px' borderRadius='full'/>}
             bg="ui.main"
             isRound
             data-testid="user-menu"
