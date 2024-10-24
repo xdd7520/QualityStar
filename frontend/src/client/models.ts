@@ -9,8 +9,50 @@ export type Body_login_login_access_token = {
 
 
 
+export type DataURIItems = {
+	name: string;
+	url_list: Array<URIItem>;
+	base_url: string;
+};
+
+
+
 export type HTTPValidationError = {
 	detail?: Array<ValidationError>;
+};
+
+
+
+export type IgnoreCreate = {
+	uri: string;
+	description: string;
+};
+
+
+
+export type IgnoreInterface = {
+	uri: string;
+	description: string;
+	id?: number | null;
+	created_at?: string;
+	updated_at?: string;
+};
+
+
+
+export type IgnoreOut = {
+	uri: string;
+	description: string;
+	id: number;
+	created_at: string;
+	updated_at: string;
+};
+
+
+
+export type IgnoreUpdate = {
+	uri?: string | null;
+	description?: string | null;
 };
 
 
@@ -51,6 +93,26 @@ export type NewPassword = {
 
 
 
+export type Page_IgnoreOut_ = {
+	items: Array<IgnoreOut>;
+	total: number | null;
+	page: number | null;
+	size: number | null;
+	pages?: number | null;
+};
+
+
+
+export type Page_ProjectNameMappingOut_ = {
+	items: Array<ProjectNameMappingOut>;
+	total: number | null;
+	page: number | null;
+	size: number | null;
+	pages?: number | null;
+};
+
+
+
 export type PaginatedResponse_ItemPublic_ = {
 	data: Array<ItemPublic>;
 	total: number;
@@ -81,6 +143,57 @@ export type PaginatedResponse_UserPublic_ = {
 
 
 
+export type PasswordValidationRequest = {
+	password: string;
+	username: string;
+};
+
+
+
+export type PasswordValidationResponse = {
+	is_valid: boolean;
+	errors: Array<string>;
+	strength: string;
+};
+
+
+
+export type ProjectNameMappingCreate = {
+	upload_name: string;
+	eureka_name: string;
+	name: string;
+	description: string;
+};
+
+
+
+export type ProjectNameMappingOut = {
+	id: number;
+	upload_name: string | null;
+	eureka_name: string;
+	name: string | null;
+	description: string | null;
+	created_at: string;
+	updated_at: string;
+};
+
+
+
+export type ProjectNameMappingUpdate = {
+	upload_name?: string | null;
+	eureka_name?: string | null;
+	name?: string | null;
+	description?: string | null;
+};
+
+
+
+export type ReportRUI = {
+	data: Array<DataURIItems>;
+};
+
+
+
 export type RoleCreate = {
 	name: string;
 	description?: string | null;
@@ -106,6 +219,15 @@ export type RoleUpdate = {
 export type Token = {
 	access_token: string;
 	token_type?: string;
+};
+
+
+
+export type URIItem = {
+	url?: string | null;
+	method?: string | null;
+	description?: string | null;
+	is_active?: boolean;
 };
 
 
