@@ -9,7 +9,7 @@ import {
 import { BsThreeDotsVertical } from "react-icons/bs"
 import { FiEdit, FiTrash } from "react-icons/fi"
 
-import type {ItemPublic, ProjectNameMappingOut, RolePublic, UserPublic} from "../../client"
+import type {ItemPublic, ProjectNameMappingPublic, RolePublic, UserPublic} from "../../client"
 import EditUser from "../Admin/EditUser"
 import EditItem from "../Items/EditItem"
 import Delete from "./DeleteAlert"
@@ -17,7 +17,7 @@ import EditRole from "../Admin/EditRole.tsx";
 
 interface ActionsMenuProps {
   type: string
-  value: ItemPublic | UserPublic | RolePublic | ProjectNameMappingOut
+  value: ItemPublic | UserPublic | RolePublic | ProjectNameMappingPublic
   disabled?: boolean
 }
 

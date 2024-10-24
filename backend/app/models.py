@@ -212,7 +212,7 @@ class ActionEnum(str, Enum):
 
 class ProjectNameMapping(SQLModel, table=True):
     __tablename__ = "project_name_mapping"
-    id: int = Field(default=None, primary_key=True, description="主键")
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True, description="主键")
     upload_name: str = Field(sa_column=Column(String, comment="上传名称"))
     eureka_name: str = Field(sa_column=Column(String, comment="Eureka 名称"))
     name: str = Field(sa_column=Column(String, comment="项目名称"))
@@ -247,8 +247,8 @@ class ProjectNameMappingUpdate(SQLModel):
     description: str | None = None
 
 
-class ProjectNameMappingOut(SQLModel):
-    id: int
+class ProjectNameMappingPublic(SQLModel):
+    id: uuid.UUID
     upload_name: Optional[str]
     eureka_name: str
     name: Optional[str]
@@ -272,7 +272,7 @@ class GatherInterface(URIItem, table=True):
     __tablename__ = "gather_interface"
     id: int = Field(default=None, primary_key=True, description="主键")
     url: str = Field(sa_column=Column(VARCHAR(), comment="接口路径"))
-    project_name_mapping_id: int = Field(default=None, foreign_key="project_name_mapping.id",
+    project_name_mapping_id: uuid.UUID = Field(default=None, foreign_key="project_name_mapping.id",
                                          description="项目名称映射ID")
     method: str = Field(sa_column=Column(VARCHAR(), comment="请求方法"))
     description: str = Field(sa_column=Column(VARCHAR(), comment="接口描述"))

@@ -310,12 +310,12 @@ export const $Page_IgnoreOut_ = {
 	},
 } as const;
 
-export const $Page_ProjectNameMappingOut_ = {
+export const $Page_ProjectNameMappingPublic_ = {
 	properties: {
 		items: {
 	type: 'array',
 	contains: {
-		type: 'ProjectNameMappingOut',
+		type: 'ProjectNameMappingPublic',
 	},
 	isRequired: true,
 },
@@ -502,11 +502,12 @@ export const $ProjectNameMappingCreate = {
 	},
 } as const;
 
-export const $ProjectNameMappingOut = {
+export const $ProjectNameMappingPublic = {
 	properties: {
 		id: {
-	type: 'number',
+	type: 'string',
 	isRequired: true,
+	format: 'uuid',
 },
 		upload_name: {
 	type: 'any-of',

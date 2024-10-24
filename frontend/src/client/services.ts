@@ -2,7 +2,7 @@ import type { CancelablePromise } from './core/CancelablePromise';
 import { OpenAPI } from './core/OpenAPI';
 import { request as __request } from './core/request';
 
-import type { Body_login_login_access_token,Message,NewPassword,Token,UserPublic,PaginatedResponse_UserPublic_,UpdatePassword,UserCreate,UserRegister,UserUpdate,UserUpdateMe,ItemCreate,ItemPublic,ItemUpdate,PaginatedResponse_ItemPublic_,PaginatedResponse_RolePublic_,RoleCreate,RolePublic,RoleUpdate,PasswordValidationRequest,PasswordValidationResponse,ReportRUI,IgnoreCreate,IgnoreInterface,IgnoreOut,IgnoreUpdate,Page_IgnoreOut_,Page_ProjectNameMappingOut_,ProjectNameMappingCreate,ProjectNameMappingOut,ProjectNameMappingUpdate } from './models';
+import type { Body_login_login_access_token,Message,NewPassword,Token,UserPublic,PaginatedResponse_UserPublic_,UpdatePassword,UserCreate,UserRegister,UserUpdate,UserUpdateMe,ItemCreate,ItemPublic,ItemUpdate,PaginatedResponse_ItemPublic_,PaginatedResponse_RolePublic_,RoleCreate,RolePublic,RoleUpdate,PasswordValidationRequest,PasswordValidationResponse,ReportRUI,IgnoreCreate,IgnoreInterface,IgnoreOut,IgnoreUpdate,Page_IgnoreOut_,Page_ProjectNameMappingPublic_,ProjectNameMappingCreate,ProjectNameMappingPublic,ProjectNameMappingUpdate } from './models';
 
 export type TDataLoginAccessToken = {
                 formData: Body_login_login_access_token
@@ -965,10 +965,10 @@ export class ProjectsService {
 	/**
 	 * Read Project Mappings
 	 * Retrieve project name mappings.
-	 * @returns Page_ProjectNameMappingOut_ Successful Response
+	 * @returns Page_ProjectNameMappingPublic_ Successful Response
 	 * @throws ApiError
 	 */
-	public static readProjectMappings(data: TDataReadProjectMappings = {}): CancelablePromise<Page_ProjectNameMappingOut_> {
+	public static readProjectMappings(data: TDataReadProjectMappings = {}): CancelablePromise<Page_ProjectNameMappingPublic_> {
 		const {
 page = 1,
 size = 50,
@@ -987,10 +987,10 @@ size = 50,
 
 	/**
 	 * Create Project Mapping
-	 * @returns ProjectNameMappingOut Successful Response
+	 * @returns ProjectNameMappingPublic Successful Response
 	 * @throws ApiError
 	 */
-	public static createProjectMapping(data: TDataCreateProjectMapping): CancelablePromise<ProjectNameMappingOut> {
+	public static createProjectMapping(data: TDataCreateProjectMapping): CancelablePromise<ProjectNameMappingPublic> {
 		const {
 requestBody,
 } = data;
@@ -1007,10 +1007,10 @@ requestBody,
 
 	/**
 	 * Read Project Mapping
-	 * @returns ProjectNameMappingOut Successful Response
+	 * @returns ProjectNameMappingPublic Successful Response
 	 * @throws ApiError
 	 */
-	public static readProjectMapping(data: TDataReadProjectMapping): CancelablePromise<ProjectNameMappingOut> {
+	public static readProjectMapping(data: TDataReadProjectMapping): CancelablePromise<ProjectNameMappingPublic> {
 		const {
 mappingId,
 } = data;
@@ -1028,10 +1028,10 @@ mappingId,
 
 	/**
 	 * Update Project Mapping
-	 * @returns ProjectNameMappingOut Successful Response
+	 * @returns ProjectNameMappingPublic Successful Response
 	 * @throws ApiError
 	 */
-	public static updateProjectMapping(data: TDataUpdateProjectMapping): CancelablePromise<ProjectNameMappingOut> {
+	public static updateProjectMapping(data: TDataUpdateProjectMapping): CancelablePromise<ProjectNameMappingPublic> {
 		const {
 mappingId,
 requestBody,
@@ -1052,10 +1052,10 @@ requestBody,
 
 	/**
 	 * Delete Project Mapping
-	 * @returns ProjectNameMappingOut Successful Response
+	 * @returns ProjectNameMappingPublic Successful Response
 	 * @throws ApiError
 	 */
-	public static deleteProjectMapping(data: TDataDeleteProjectMapping): CancelablePromise<ProjectNameMappingOut> {
+	public static deleteProjectMapping(data: TDataDeleteProjectMapping): CancelablePromise<ProjectNameMappingPublic> {
 		const {
 mappingId,
 } = data;

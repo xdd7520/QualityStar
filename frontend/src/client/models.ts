@@ -103,8 +103,8 @@ export type Page_IgnoreOut_ = {
 
 
 
-export type Page_ProjectNameMappingOut_ = {
-	items: Array<ProjectNameMappingOut>;
+export type Page_ProjectNameMappingPublic_ = {
+	items: Array<ProjectNameMappingPublic>;
 	total: number | null;
 	page: number | null;
 	size: number | null;
@@ -167,8 +167,8 @@ export type ProjectNameMappingCreate = {
 
 
 
-export type ProjectNameMappingOut = {
-	id: number;
+export type ProjectNameMappingPublic = {
+	id: string;
 	upload_name: string | null;
 	eureka_name: string;
 	name: string | null;
