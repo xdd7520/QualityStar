@@ -1,239 +1,151 @@
-# Full Stack FastAPI Template
 
-<a href="https://github.com/fastapi/full-stack-fastapi-template/actions?query=workflow%3ATest" target="_blank"><img src="https://github.com/fastapi/full-stack-fastapi-template/workflows/Test/badge.svg" alt="Test"></a>
-<a href="https://coverage-badge.samuelcolvin.workers.dev/redirect/fastapi/full-stack-fastapi-template" target="_blank"><img src="https://coverage-badge.samuelcolvin.workers.dev/fastapi/full-stack-fastapi-template.svg" alt="Coverage"></a>
+## 开发环境配置
 
-## Technology Stack and Features
+### 配置
+更新 `.env` 文件中的配置来自定义您的设置。
 
-- ⚡ [**FastAPI**](https://fastapi.tiangolo.com) for the Python backend API.
-    - 🧰 [SQLModel](https://sqlmodel.tiangolo.com) for the Python SQL database interactions (ORM).
-    - 🔍 [Pydantic](https://docs.pydantic.dev), used by FastAPI, for the data validation and settings management.
-    - 💾 [PostgreSQL](https://www.postgresql.org) as the SQL database.
-- 🚀 [React](https://react.dev) for the frontend.
-    - 💃 Using TypeScript, hooks, Vite, and other parts of a modern frontend stack.
-    - 🎨 [Chakra UI](https://chakra-ui.com) for the frontend components.
-    - 🤖 An automatically generated frontend client.
-    - 🧪 [Playwright](https://playwright.dev) for End-to-End testing.
-    - 🦇 Dark mode support.
-- 🐋 [Docker Compose](https://www.docker.com) for development and production.
-- 🔒 Secure password hashing by default.
-- 🔑 JWT (JSON Web Token) authentication.
-- 📫 Email based password recovery.
-- ✅ Tests with [Pytest](https://pytest.org).
-- 📞 [Traefik](https://traefik.io) as a reverse proxy / load balancer.
-- 🚢 Deployment instructions using Docker Compose, including how to set up a frontend Traefik proxy to handle automatic HTTPS certificates.
-- 🏭 CI (continuous integration) and CD (continuous deployment) based on GitHub Actions.
-
-### Dashboard Login
-
-[![API docs](img/login.png)](https://github.com/fastapi/full-stack-fastapi-template)
-
-### Dashboard - Admin
-
-[![API docs](img/dashboard.png)](https://github.com/fastapi/full-stack-fastapi-template)
-
-### Dashboard - Create User
-
-[![API docs](img/dashboard-create.png)](https://github.com/fastapi/full-stack-fastapi-template)
-
-### Dashboard - Items
-
-[![API docs](img/dashboard-items.png)](https://github.com/fastapi/full-stack-fastapi-template)
-
-### Dashboard - User Settings
-
-[![API docs](img/dashboard-user-settings.png)](https://github.com/fastapi/full-stack-fastapi-template)
-
-### Dashboard - Dark Mode
-
-[![API docs](img/dashboard-dark.png)](https://github.com/fastapi/full-stack-fastapi-template)
-
-### Interactive API Documentation
-
-[![API docs](img/docs.png)](https://github.com/fastapi/full-stack-fastapi-template)
-
-## How To Use It
-
-You can **just fork or clone** this repository and use it as is.
-
-✨ It just works. ✨
-
-### How to Use a Private Repository
-
-If you want to have a private repository, GitHub won't allow you to simply fork it as it doesn't allow changing the visibility of forks.
-
-But you can do the following:
-
-- Create a new GitHub repo, for example `my-full-stack`.
-- Clone this repository manually, set the name with the name of the project you want to use, for example `my-full-stack`:
-
-```bash
-git clone git@github.com:fastapi/full-stack-fastapi-template.git my-full-stack
-```
-
-- Enter into the new directory:
-
-```bash
-cd my-full-stack
-```
-
-- Set the new origin to your new repository, copy it from the GitHub interface, for example:
-
-```bash
-git remote set-url origin git@github.com:octocat/my-full-stack.git
-```
-
-- Add this repo as another "remote" to allow you to get updates later:
-
-```bash
-git remote add upstream git@github.com:fastapi/full-stack-fastapi-template.git
-```
-
-- Push the code to your new repository:
-
-```bash
-git push -u origin master
-```
-
-### Update From the Original Template
-
-After cloning the repository, and after doing changes, you might want to get the latest changes from this original template.
-
-- Make sure you added the original repository as a remote, you can check it with:
-
-```bash
-git remote -v
-
-origin    git@github.com:octocat/my-full-stack.git (fetch)
-origin    git@github.com:octocat/my-full-stack.git (push)
-upstream    git@github.com:fastapi/full-stack-fastapi-template.git (fetch)
-upstream    git@github.com:fastapi/full-stack-fastapi-template.git (push)
-```
-
-- Pull the latest changes without merging:
-
-```bash
-git pull --no-commit upstream master
-```
-
-This will download the latest changes from this template without committing them, that way you can check everything is right before committing.
-
-- If there are conflicts, solve them in your editor.
-
-- Once you are done, commit the changes:
-
-```bash
-git merge --continue
-```
-
-### Configure
-
-You can then update configs in the `.env` files to customize your configurations.
-
-Before deploying it, make sure you change at least the values for:
-
-- `SECRET_KEY`
-- `FIRST_SUPERUSER_PASSWORD`
+在部署之前，请确保至少更改以下值： 
+- `SECRET_KEY` 
+- `FIRST_SUPERUSER_PASSWORD` 
 - `POSTGRES_PASSWORD`
+### 生成密钥
 
-You can (and should) pass these as environment variables from secrets.
+`.env` 文件中的某些环境变量默认值为 `changethis`。
 
-Read the [deployment.md](./deployment.md) docs for more details.
-
-### Generate Secret Keys
-
-Some environment variables in the `.env` file have a default value of `changethis`.
-
-You have to change them with a secret key, to generate secret keys you can run the following command:
+您需要用一个密钥替换它们，生成密钥可以运行以下命令：
 
 ```bash
 python -c "import secrets; print(secrets.token_urlsafe(32))"
 ```
 
-Copy the content and use that as password / secret key. And run that again to generate another secure key.
 
-## How To Use It - Alternative With Copier
+`.env` 配置文件说明
 
-This repository also supports generating a new project using [Copier](https://copier.readthedocs.io).
+- `project_name`: （默认值：`"FastAPI Project"`）项目名称，显示给API用户（在.env文件中）。 
+- `stack_name`: （默认值：`"fastapi-project"`）用于Docker Compose标签的堆栈名称（无空格）（在.env文件中）。 
+- `secret_key`: （默认值：`"changethis"`）项目的密钥，用于安全保护，存储在.env文件中，您可以使用上述方法生成一个。 
+- `first_superuser`: （默认值：`"admin@example.com"`）第一个超级用户的电子邮件（在.env文件中）。 
+- `first_superuser_password`: （默认值：`"changethis"`）第一个超级用户的密码（在.env文件中）。 
+- `smtp_host`: （默认值：""）用于发送电子邮件的SMTP服务器主机，您可以稍后在.env文件中设置。 
+- `smtp_user`: （默认值：""）用于发送电子邮件的SMTP服务器用户，您可以稍后在.env文件中设置。 
+- `smtp_password`: （默认值：""）用于发送电子邮件的SMTP服务器密码，您可以稍后在.env文件中设置。 
+- `emails_from_email`: （默认值：`"info@example.com"`）发送电子邮件的账户，您可以稍后在.env文件中设置。 
+- `postgres_password`: （默认值：`"changethis"`）PostgreSQL数据库的密码，存储在.env文件中，您可以使用上述方法生成一个。 
+- `sentry_dsn`: （默认值：""）如果您在使用Sentry，其DSN，您可以稍后在.env文件中设置。
 
-It will copy all the files, ask you configuration questions, and update the `.env` files with your answers.
 
-### Install Copier
-
-You can install Copier with:
-
-```bash
-pip install copier
-```
-
-Or better, if you have [`pipx`](https://pipx.pypa.io/), you can run it with:
-
-```bash
-pipx install copier
-```
-
-**Note**: If you have `pipx`, installing copier is optional, you could run it directly.
-
-### Generate a Project With Copier
-
-Decide a name for your new project's directory, you will use it below. For example, `my-awesome-project`.
-
-Go to the directory that will be the parent of your project, and run the command with your project's name:
+- # FastAPI项目 - 后端
+## 要求 
+- [Docker](https://www.docker.com/) 。 
+- [Poetry](https://python-poetry.org/)  用于Python包和环境管理。
+## 本地开发
+- 使用Docker Compose启动堆栈：
 
 ```bash
-copier copy https://github.com/fastapi/full-stack-fastapi-template my-awesome-project --trust
+docker compose up -d
 ```
 
-If you have `pipx` and you didn't install `copier`, you can run it directly:
+
+- 现在您可以打开浏览器，并与以下URLs交互：
+
+前端，使用Docker构建，根据路径处理路由：[http://localhost](http://localhost/) 
+
+后端，基于OpenAPI的JSON web API：[http://localhost/api/](http://localhost/api/) 
+
+自动交互式文档与Swagger UI（来自OpenAPI后端）：[http://localhost/docs](http://localhost/docs) 
+
+Adminer，数据库网络管理：[http://localhost:8080](http://localhost:8080/) 
+
+Traefik UI，查看代理如何处理路由：[http://localhost:8090](http://localhost:8090/) 
+
+**注意** ：第一次启动堆栈时，可能需要一分钟时间才能准备好。后端在等待数据库准备好并配置一切时。您可以检查日志以监控它。
+
+检查日志，运行：
 
 ```bash
-pipx run copier copy https://github.com/fastapi/full-stack-fastapi-template my-awesome-project --trust
+docker compose logs
 ```
 
-**Note** the `--trust` option is necessary to be able to execute a [post-creation script](https://github.com/fastapi/full-stack-fastapi-template/blob/master/.copier/update_dotenv.py) that updates your `.env` files.
 
-### Input Variables
 
-Copier will ask you for some data, you might want to have at hand before generating the project.
+检查特定服务的日志，添加服务名称，例如：
 
-But don't worry, you can just update any of that in the `.env` files afterwards.
+```bash
+docker compose logs backend
+```
 
-The input variables, with their default values (some auto generated) are:
 
-- `project_name`: (default: `"FastAPI Project"`) The name of the project, shown to API users (in .env).
-- `stack_name`: (default: `"fastapi-project"`) The name of the stack used for Docker Compose labels and project name (no spaces, no periods) (in .env).
-- `secret_key`: (default: `"changethis"`) The secret key for the project, used for security, stored in .env, you can generate one with the method above.
-- `first_superuser`: (default: `"admin@example.com"`) The email of the first superuser (in .env).
-- `first_superuser_password`: (default: `"changethis"`) The password of the first superuser (in .env).
-- `smtp_host`: (default: "") The SMTP server host to send emails, you can set it later in .env.
-- `smtp_user`: (default: "") The SMTP server user to send emails, you can set it later in .env.
-- `smtp_password`: (default: "") The SMTP server password to send emails, you can set it later in .env.
-- `emails_from_email`: (default: `"info@example.com"`) The email account to send emails from, you can set it later in .env.
-- `postgres_password`: (default: `"changethis"`) The password for the PostgreSQL database, stored in .env, you can generate one with the method above.
-- `sentry_dsn`: (default: "") The DSN for Sentry, if you are using it, you can set it later in .env.
 
-## Backend Development
+如果您的Docker不是运行在`localhost`（上面的URL将不起作用），您需要使用Docker运行的IP或域名。
+## 后端本地开发的其他详细信息
+### 常规工作流程
 
-Backend docs: [backend/README.md](./backend/README.md).
+默认情况下，依赖关系由[Poetry](https://python-poetry.org/) 管理，前往那里安装它。
 
-## Frontend Development
+`pip install poetry`
 
-Frontend docs: [frontend/README.md](./frontend/README.md).
+从`./backend/`目录，您可以安装所有依赖项：
 
-## Deployment
+```bash
+poetry install
+```
 
-Deployment docs: [deployment.md](./deployment.md).
 
-## Development
 
-General development docs: [development.md](./development.md).
+然后您可以开始一个带有新环境的shell会话(或者自己启动的虚拟环境)：
 
-This includes using Docker Compose, custom local domains, `.env` configurations, etc.
+```bash
+poetry shell
+```
 
-## Release Notes
 
-Check the file [release-notes.md](./release-notes.md).
 
-## License
+确保您的编辑器使用正确的Python虚拟环境。
 
-The Full Stack FastAPI Template is licensed under the terms of the MIT license.
+修改或添加SQLModel模型用于数据和SQL表在`./backend/app/models.py`，API端点在`./backend/app/api/`，CRUD（创建，读取，更新，删除）工具在`./backend/app/crud.py`。
+
+### 准备开发
+ > 请注意查看脚本：[prestart.sh](backend/prestart.sh) 手动执行里面的脚本 
+
+
+- Alembic已经配置好从`./backend/app/models.py`导入您的SQLModel模型。 
+- 修改模型后（例如，添加列），在容器内创建修订版，例如：
+
+
+```console
+$ alembic revision --autogenerate -m "Add column last_name to User model"
+```
+
+ 
+- 将在alembic目录生成的文件提交到git仓库。 
+- 创建修订版后，在数据库中运行迁移（这实际上会更改数据库）：
+
+```console
+$ alembic upgrade head
+```
+
+
+
+如果您根本不想使用alembic，可以取消注释`./backend/app/db/init_db.py`文件中以以下内容结束的行：
+
+```python
+SQLModel.metadata.create_all(engine)
+```
+
+
+
+并注释`prestart.sh`文件中包含的行：
+
+```console
+$ alembic upgrade head
+```
+
+
+
+如果您不想从默认模型开始，并想从一开始就移除或修改它们，而且没有任何之前的修订，您可以删除`./backend/app/alembic/versions/`下的修订文件（`.py` Python文件）。然后按照上述描述创建第一个迁移。
+
+
+### 启动项目
+```bash
+ poetry run uvicorn app.main:app --reload
+```
