@@ -5,12 +5,11 @@ import {
   TabList, TabPanel, TabPanels, Tabs,
 } from "@chakra-ui/react"
 import { createFileRoute } from "@tanstack/react-router"
-import { useQueryClient} from "react-query"
+import { useQueryClient } from "@tanstack/react-query"
 
 import ProjectReport from "../../components/AutomaticReport/ProjectReport";
 import UploadReport from "../../components/AutomaticReport/UploadReport";
 import GatherReport from "../../components/AutomaticReport/GatherReport";
-import ProjectMapping from "../../components/AutomaticReport/ProjectMapping";
 import type {UserPublic} from "../../client";
 
 
@@ -18,7 +17,7 @@ const tabsConfig = [
   { title: "项目报告", component: ProjectReport },
   { title: "上报信息", component: UploadReport },
   { title: "采集信息", component: GatherReport },
-  { title: "项目名称映射", component: ProjectMapping },
+  // { title: "项目名称映射", component: ProjectMapping },
 ]
 export const Route = createFileRoute('/_layout/automatic-reports')({
   component: Reports,
@@ -26,7 +25,7 @@ export const Route = createFileRoute('/_layout/automatic-reports')({
 
 function Reports()  {
   const queryClient = useQueryClient()
-  const currentUser = queryClient.getQueryData<UserPublic>("currentUser")
+  const currentUser = queryClient.getQueryData<UserPublic>(["currentUser"])
   const finalTabs = currentUser?.is_superuser
     ? tabsConfig.slice(0, tabsConfig.length)
     : tabsConfig
